@@ -1,0 +1,17 @@
+/* home.scss (or your custom CSS file) */
+
+.grid-item {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.item-link {
+  color: #007bff; /* Link color */
+  text-decoration: none;
+}
+
+.item-link:hover {
+  text-decoration: underline; /* Add underline on hover */
+}

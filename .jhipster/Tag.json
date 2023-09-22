@@ -1,0 +1,29 @@
+{
+  "applications": "*",
+  "changelogDate": "20230913001154",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "tag",
+  "fields": [
+    {
+      "fieldName": "title",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Tag",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "item",
+      "otherEntityRelationshipName": "tag",
+      "ownerSide": true,
+      "relationshipName": "item",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "no"
+}
