@@ -31,9 +31,9 @@ public class FacebookItemsAPI {
     ) throws JsonProcessingException {
         // Fetch news articles from the external API
         log.debug("request params are {} {}", category);
-        List<RawItem> articles = scraper.scrapeData(category); // Fetch and map raw articles here
-        // Save the articles to the database
-        newsArticleService.saveToDataBase(articles);
+//        List<RawItem> articles = scraper.scrapeData(category); // Fetch and map raw articles here
+//        // Save the articles to the database
+//        newsArticleService.saveToDataBase(articles);
         return ResponseEntity.ok("News articles saved successfully.");
     }
 
