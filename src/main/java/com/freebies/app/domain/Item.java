@@ -1,5 +1,4 @@
 package com.freebies.app.domain;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.HashSet;

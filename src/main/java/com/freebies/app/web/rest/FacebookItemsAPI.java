@@ -2,7 +2,10 @@ package com.freebies.app.web.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.freebies.app.domain.RawItem;
+
+import com.freebies.app.service.RawItemServiceTransactional;
 import com.freebies.app.service.Scraper;
+import com.freebies.app.service.UrlLinkEnum;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,18 +25,20 @@ import java.util.List;
 @RequestMapping("/FaceApi")
 public class FacebookItemsAPI {
     @Autowired
-    Scraper scraper=new Scraper();
+    WebDriver webDriver;
+    @Autowired
+    RawItemServiceTransactional itemServiceTransactional;
+
     private final Logger log = LoggerFactory.getLogger(FacebookItemsAPI.class);
-    @GetMapping("/fetch-and-save")
+    @GetMapping("/fetch-and-save-garden")
     public ResponseEntity<String> fetchAndSaveNews(
-        @RequestParam String category,
-        @RequestParam String size
-    ) throws JsonProcessingException {
+        @RequestParam String category
+    ) throws JsonProcessingException, InterruptedException {
+        log.debug("request params are {}", category);
         // Fetch news articles from the external API
-        log.debug("request params are {} {}", category);
-//        List<RawItem> articles = scraper.scrapeData(category); // Fetch and map raw articles here
-//        // Save the articles to the database
-//        newsArticleService.saveToDataBase(articles);
+        List<RawItem> items = Scraper.scrapeData(category,webDriver); // Fetch and map raw articles here
+        // Save the articles to the database
+        itemServiceTransactional.saveToDataBase(items);
         return ResponseEntity.ok("News articles saved successfully.");
     }
 

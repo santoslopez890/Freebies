@@ -1,5 +1,6 @@
 package com.freebies.app.service;
 
+import com.freebies.app.domain.RawItem;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,14 +10,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 @Service
 
 public class Scraper {
-    private ArrayList<Items> itemArrayList;
-    public static WebDriver driver(){
 
+    public static WebDriver driver(){
         System.out.println("Configuring Chrome");
         System.setProperty("webdriver.chrome.driver","webpack/chromedriver");
         ChromeOptions options = new ChromeOptions();
@@ -36,27 +37,26 @@ public class Scraper {
         driver.findElement(By.id("email")).sendKeys(UrlLinkEnum.UserName.getLink());
         driver.findElement(By.name("pass")).sendKeys(UrlLinkEnum.Password.getLink());
         driver.findElement(By.name("login")).click();
-        driver.findElement(By.className("_97w4")).click();
-        driver.findElement(By.className("_aklt")).click();
-        driver.findElement(By.name("pass")).sendKeys(UrlLinkEnum.Password.getLink());
-        driver.findElement(By.name("login")).click();
+//            driver.findElement(By.className("_97w4")).click();
+//            driver.findElement(By.className("_aklt")).click();
+//            driver.findElement(By.name("pass")).sendKeys(UrlLinkEnum.Password.getLink());
+//            driver.findElement(By.name("login")).click();
         return driver;
-
-
     }
-    public ArrayList<Items> scrapeData(String category, WebDriver driver)throws InterruptedException{
-             itemArrayList=new ArrayList<>();
+    public static List<RawItem> scrapeData(String category, WebDriver driver)throws InterruptedException{
+         List<RawItem>  itemArrayList=new ArrayList<>();
             System.out.println("Scraping Data");
-            driver.get(category);
+            String url=UrlLinkEnum.linkp1.getLink()+category+UrlLinkEnum.linkp2.getLink();
+            driver.get(url);
             //Scrape items from page
             List<WebElement> WebElement  =  driver.findElements(By.className("xjp7ctv"));
             for (WebElement element : WebElement) {
-                Items item=new Items();
+                RawItem item=new RawItem();
                 String[] lines = element.getText().split("\n");
                 try {
                     item.setPrice(lines[0]);
-                }catch (ArrayIndexOutOfBoundsException e){
-
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    // Handle ArrayIndexOutOfBoundsException
                 }
                 try {
                     item.setName(lines[1]);
@@ -75,11 +75,11 @@ public class Scraper {
                 if (imgMatcher.find()) {
                     String imageLink = imgMatcher.group(1);
                     imageLink = imageLink.replace("&amp;", "&");
-                    item.setImageLink(imageLink);
+                    item.setImage(imageLink);
                     itemArrayList.add(item);
                 }
             }
-            for (Items i:itemArrayList
+            for (RawItem i:itemArrayList
             ) {
                 System.out.println(i.toString());
             }
@@ -89,8 +89,7 @@ public class Scraper {
     public static void main(String[] args) throws InterruptedException {
         Scraper scrape=new Scraper();
         WebDriver driver=scrape.driver();
-        scrape.scrapeData(UrlLinkEnum.Garden.getLink(),driver);
-        scrape.scrapeData(UrlLinkEnum.Home.getLink(),driver);
-        scrape.scrapeData(UrlLinkEnum.Toys.getLink(),driver);
+        String cat="home";
+        scrapeData(cat,driver);
     }
     }

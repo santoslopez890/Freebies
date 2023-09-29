@@ -11,22 +11,15 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Service
-
 public class RawItemMapper {
-
-
-
     public Item externalToInternal(RawItem rawItem){
+
         Item item=new Item();
         item.setName(rawItem.getName());
         item.setDescription(rawItem.getDescription());
         item.setLocation(rawItem.getLocation());
         item.setImage(rawItem.getImage());
-        item.setPrice(rawItem.getPrice());
+        item.setPrice(0.0);
         return item;
     }
-//    public Picture getPicture(NewsArticleRaw rawArticle){
-//    }
-
-
 }

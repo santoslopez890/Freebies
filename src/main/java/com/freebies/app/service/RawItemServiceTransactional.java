@@ -36,10 +36,10 @@ public class RawItemServiceTransactional {
         this.itemMapper = itemMapper;
     }
     public List<Item> saveToDataBase(List<RawItem> newsArticleRawList){
-        return newsArticleRawList.stream().map(this::saveSingleArticle).collect(Collectors.toList());
+        return newsArticleRawList.stream().map(this::saveSingleItem).collect(Collectors.toList());
 
     }
-    public Item saveSingleArticle(RawItem rawItem){
+    public Item saveSingleItem(RawItem rawItem){
         //Convert from newsArticle Raw to news Article
         Item item=itemMapper.externalToInternal(rawItem);
         //Categories

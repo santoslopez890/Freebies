@@ -8,13 +8,17 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 import javax.annotation.PostConstruct;
+
+import com.freebies.app.service.Scraper;
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import tech.jhipster.config.DefaultProfileUtil;
 import tech.jhipster.config.JHipsterConstants;
@@ -101,5 +105,9 @@ public class FinalFreebiesAlertsApp {
             contextPath,
             env.getActiveProfiles().length == 0 ? env.getDefaultProfiles() : env.getActiveProfiles()
         );
+    }
+    @Bean
+    WebDriver webDriver(){
+        return Scraper.driver();
     }
 }

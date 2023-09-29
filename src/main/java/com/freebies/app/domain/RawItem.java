@@ -7,21 +7,26 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 import javax.persistence.Column;
+import java.util.Arrays;
 import java.util.Map;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter
+@Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RawItem {
 
     private String name;
 
-    private Double price;
+    private String price;
 
     private String location;
 
@@ -50,11 +55,11 @@ public class RawItem {
         this.name = name;
     }
 
-    public Double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
@@ -80,6 +85,18 @@ public class RawItem {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    @Override
+    public String toString() {
+        return "RawItem{" +
+            "name='" + name + '\'' +
+            ", price=" + price +
+            ", location='" + location + '\'' +
+            ", description='" + description + '\'' +
+            ", image='" + image + '\'' +
+            ", category=" + Arrays.toString(category) +
+            '}';
     }
 }
 
