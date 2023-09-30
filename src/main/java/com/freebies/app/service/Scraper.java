@@ -52,6 +52,9 @@ public class Scraper {
             List<WebElement> WebElement  =  driver.findElements(By.className("xjp7ctv"));
             for (WebElement element : WebElement) {
                 RawItem item=new RawItem();
+                String[] cats=new String[1];
+                cats[0]=category;
+                item.setCategory(cats);
                 String[] lines = element.getText().split("\n");
                 try {
                     item.setPrice(lines[0]);
