@@ -18,6 +18,12 @@ const apiUrl = 'api/items';
 
 // Actions
 
+export const getEntitiesOfCategory=createAsyncThunk(
+  'item/fetch_entity_list',
+  async (name: string)=>{
+    const requestUrl = `api/tag/${name}/item?cacheBuster=${new Date().getTime()}`;
+    return axios.get<IItem[]>(requestUrl);
+  });
 export const getEntities = createAsyncThunk('item/fetch_entity_list', async ({ page, size, sort }: IQueryParams) => {
   const requestUrl = `${apiUrl}?cacheBuster=${new Date().getTime()}`;
   return axios.get<IItem[]>(requestUrl);

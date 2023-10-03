@@ -1,13 +1,17 @@
 package com.freebies.app.web.rest;
 
+import com.freebies.app.domain.Item;
 import com.freebies.app.domain.Tag;
 import com.freebies.app.repository.TagRepository;
 import com.freebies.app.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -176,5 +180,32 @@ public class TagResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+    @GetMapping("/categories/{name}/articles")
+    public List<Item> getCategoryArticles(
+        @PathVariable String name,
+        @RequestParam(required = false) Integer limit
+    ) {
+        log.debug("REST request to get Category : {}", name);
+        // uses the tag repository to find all and filter by category and filters it by name and collects it and places it to a list
+        List<Tag> categoryFound = tagRepository.findAll()
+            .stream()
+            .filter(category -> category.getTitle().equalsIgnoreCase(name))
+            .collect(Collectors.toList());
+        //makes a new list of items for later use
+        List<Item> result;
+        if(categoryFound.isEmpty()){
+            result = new ArrayList<>();
+        }
+        else if(limit == null){
+            result = new ArrayList<>(categoryFound.get(0).getItems());
+        }
+        else{
+            result = categoryFound.get(0).getItems()
+                .stream()
+                .limit(limit)
+                .collect(Collectors.toList());
+        }
+        return result;
     }
 }
