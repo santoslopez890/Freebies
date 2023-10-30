@@ -19,6 +19,7 @@ public class Scraper {
 
     public static WebDriver driver(){
         System.out.println("Configuring Chrome");
+        //Cant find path on docker
         System.setProperty("webdriver.chrome.driver","webpack/chromedriver");
         ChromeOptions options = new ChromeOptions();
         String userAget = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36";
